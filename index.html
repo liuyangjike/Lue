@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src='./compile.js'></script>
+  <script src='./lue.js'></script>
+  <script src='./observer.js'></script>
+  <script src='./watcher.js'></script>
+  <title>Lue</title>
+</head>
+<body>
+    <div id="app">
+      <div>{{test.a}}</div>
+    </div>
+    <script>
+      var lue = new Lue ({
+        el: '#app',
+        data: {
+          test: {
+            a: 1
+          }
+        }
+      })
+
+    </script>
+  
+</body>
+</html>
