@@ -13,8 +13,6 @@ const methodsToPatch = [
 ]
 
 // 将变异的数组方法加工一下
-
-
 methodsToPatch.forEach(function (method) {
   const original = arrayProto[method]
   var mutator = function (...args){
