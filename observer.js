@@ -31,7 +31,6 @@ let defineReactive = (obj, key) => {
       if (Dep.target) {
         console.log(obj)
         console.log(key)
-        debugger
         dep.depend(Dep.target)
       }
       console.log(dep, 'dep')

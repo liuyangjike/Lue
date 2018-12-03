@@ -9,21 +9,39 @@
   <script src='./observer.js'></script>
   <script src='./watcher.js'></script>
   <title>Lue</title>
+  <style>
+    .active{
+      font-size: 20px;
+      color: blue;
+    }
+    .big-font{
+      font-size: 30px;
+      color: red;
+    }
+  </style>
 </head>
 <body>
     <div id="app">
+      <input type="text" v-model="test.a">
       <div>{{test.a}}</div>
+      <div v-class="className" class="init">Hello Class</div>
+      <button v-on:click="changeClass">Button</button>
     </div>
     <script>
       var lue = new Lue ({
         el: '#app',
         data: {
+          className: 'active',
           test: {
             a: 1
           }
+        },
+        methods: {
+          changeClass() {
+            this.className = 'big-font'
+          }
         }
       })
-
     </script>
   
 </body>

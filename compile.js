@@ -26,6 +26,7 @@ class Compile{
     var childNodes = el.childNodes
     var compiler  = this;
     [].slice.call(childNodes).forEach(function(node) {
+      console.log(node, 'dom')
       var text = node.textContent
       var reg = /\{\{(.*)\}\}/  //  表达式文本
       // 按元素节点方式编译
@@ -49,6 +50,7 @@ class Compile{
       if (compiler.isDirective(attrName)) {
         var exp = attr.value
         var dir = attrName.substring(2)
+        console.log(attrName, 'arttt')
         if (compiler.isEventDirective(dir)) {
           // 事件指令  如v-on:click
           compileUtil.eventHandler(node, compiler.$vm, exp, dir)
@@ -101,7 +103,8 @@ var compileUtil = {
     this.bind(node, vm, exp, 'class')
   },
   bind: function (node, vm, exp, dir) {
-    var updaterFn = updater[dir + 'Updater']
+    var updaterFn = updater[dir + 'Updater']  // 更新对应dom的值
+    console.log(dir, exp, '---')
     // 第一次初始化视图
     updaterFn && updaterFn(node, this._getVMVal(vm, exp)) // 可能是嵌套的结构, 所以用this._getVMVal(vm, exp)
     // 实例化订阅者, 此操作会在对应的属性信息订阅器中添加了改订阅watcher
@@ -114,7 +117,6 @@ var compileUtil = {
   eventHandler: function (node, vm, exp, dir) {
     var eventType = dir.split(":")[1]
     var fn = vm.$options.methods && vm.$options.methods[exp]
-
     if (eventType && fn) {
       node.addEventListener(eventType, fn.bind(vm), false)
     }
@@ -131,7 +133,6 @@ var compileUtil = {
      var val = vm
      exp = exp.split('.')
      exp.forEach(function (key, i) {
-       console.log(111)
        // 非最后一个key,更新val的值
        if (i < exp.length - 1) {
          val = val[key]
@@ -151,11 +152,11 @@ var updater = {
   },
   classUpdater: function (node, value, oldValue) {
     var className = node.className
-    className = className.replace(oldValue, '').replace(/\s$/,'')
+    className = className.replace(oldValue, '').replace(/\s$/,'')  // 替换空白字符
     var space = className && String(value) ? ' ': ''
     node.className = className + space + value
   },
-  modelUpdaterL: function (node, value, oldValue) {
+  modelUpdater: function (node, value, oldValue) {
     node.value = typeof value == 'undefined'? '':value
   }
 }

@@ -12,7 +12,6 @@ class Watcher {
     this.test = []
     // 此处为了触发属性的getter, 从而在dep上添加自己, 结合Observer
     this.getter = this.parseGetter(expression)
-    console.log(this)
     this.value = this.get()
   }
   get () {
