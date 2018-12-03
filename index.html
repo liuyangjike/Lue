@@ -8,6 +8,7 @@
   <script src='./lue.js'></script>
   <script src='./observer.js'></script>
   <script src='./watcher.js'></script>
+  <script src='./array.js'></script>
   <title>Lue</title>
   <style>
     .active{
@@ -24,6 +25,7 @@
     <div id="app">
       <input type="text" v-model="test.a">
       <div>{{test.a}}</div>
+      <div>list: {{list}}</div>
       <div v-class="className" class="init">Hello Class</div>
       <button v-on:click="changeClass">Button</button>
     </div>
@@ -32,6 +34,7 @@
         el: '#app',
         data: {
           className: 'active',
+          list: [1, 2, 3],
           test: {
             a: 1
           }

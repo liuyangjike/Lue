@@ -38,6 +38,8 @@ class Watcher {
     if (value !== oldVal) {
       this.value = value
       this.cb.call(this.vm, value, oldVal)  // 执行Compile中绑定的回调, 更新视图
+    } else if (Array.isArray(value)) {
+      this.cb.call(this.vm, value, oldVal)  // 执行Compile中绑定的回调, 更新视图
     }
   }
 

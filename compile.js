@@ -26,7 +26,6 @@ class Compile{
     var childNodes = el.childNodes
     var compiler  = this;
     [].slice.call(childNodes).forEach(function(node) {
-      console.log(node, 'dom')
       var text = node.textContent
       var reg = /\{\{(.*)\}\}/  //  表达式文本
       // 按元素节点方式编译
@@ -50,7 +49,6 @@ class Compile{
       if (compiler.isDirective(attrName)) {
         var exp = attr.value
         var dir = attrName.substring(2)
-        console.log(attrName, 'arttt')
         if (compiler.isEventDirective(dir)) {
           // 事件指令  如v-on:click
           compileUtil.eventHandler(node, compiler.$vm, exp, dir)
@@ -104,7 +102,6 @@ var compileUtil = {
   },
   bind: function (node, vm, exp, dir) {
     var updaterFn = updater[dir + 'Updater']  // 更新对应dom的值
-    console.log(dir, exp, '---')
     // 第一次初始化视图
     updaterFn && updaterFn(node, this._getVMVal(vm, exp)) // 可能是嵌套的结构, 所以用this._getVMVal(vm, exp)
     // 实例化订阅者, 此操作会在对应的属性信息订阅器中添加了改订阅watcher
