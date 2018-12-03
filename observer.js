@@ -7,14 +7,14 @@ function observer (value) {
 
 class Observer {
   constructor (value) {
-    this.walk(value)
+    this.walk(value)  // 转化成访问属性
   }
   walk (obj) {
     Object.keys(obj).forEach((key)=> {
       // 如果是对象,则递归调用walk,保证每个属性都可以被defiineReactive
       if (typeof obj[key] === 'object') {
         if (Array.isArray(obj[key])) {
-          protoAugment(obj[key], arrayMethods)
+          protoAugment(obj[key], arrayMethods)  // 通过protoAugment重写每个数组对象的原型方法(pop等)
         } else {
           this.walk(obj[key])
         }
@@ -35,7 +35,7 @@ let defineReactive = (obj, key) => {
       if (Dep.target) {
         dep.depend(Dep.target)
       }
-      if (Array.isArray(value)) {
+      if (Array.isArray(value)) { // 让数组的变异方法pop等, 能取到它的订阅器
         Object.defineProperty(value, '__ob__', {
           value: dep,
           enumerable: false,
@@ -66,10 +66,11 @@ class Dep {
   depend() {
     Dep.target.addDep(this)  // 在 addDep 内部并不是直接调用 dep.addSub 收集观察者,避免重复搜集
   }
+  // 收集观察者
   addSub (sub) {
     this.subs.push(sub)
   }
-  // 通知
+  // 通知更新
   notify () {
     this.subs.forEach( sub => {
       sub.update()
@@ -82,4 +83,4 @@ function protoAugment (target, src) {
   target.__proto__ = src
 }
 
-Dep.target = null
+Dep.target = null  // 全局变量来暂存  当前的观察者

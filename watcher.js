@@ -39,7 +39,8 @@ class Watcher {
       this.value = value
       this.cb.call(this.vm, value, oldVal)  // 执行Compile中绑定的回调, 更新视图
     } else if (Array.isArray(value)) {
-      this.cb.call(this.vm, value, oldVal)  // 执行Compile中绑定的回调, 更新视图
+      // 由于数组是引用类型, oldValue会和value一起改变, 所以相同, 直接执行回调, 更新视图
+      this.cb.call(this.vm, value, oldVal)  
     }
   }
 
@@ -54,7 +55,7 @@ class Watcher {
     return function (obj) {
       for (var i = 0; i < expressions.length; i++ ) {
         if (!obj) return
-        obj = obj[expressions[i]]
+        obj = obj[expressions[i]]  // 取值过程, 触发收集机制
       }
       return obj
     }
